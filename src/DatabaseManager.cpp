@@ -1,6 +1,40 @@
 #include "../include/DatabaseManager.h"
+#include "RegularStudent.h"
+#include "ExchangeStudent.h"
+#include "ScholarshipStudent.h"
 #include <fstream>
 void DatabaseManager::saveStudent(Student* s) {
     ofstream file("data/students.txt",ios_base::app);//append mode to save prev data
-    file << s->getID()<<" | "<<s->getName()<<" | "<<s->getType()<<" | "<<s->getGPA()<<endl;
+    file << s->getID()<<"|"<<s->getName()<<"|"<<s->getEmail()<<"|"<<s->getType()<<"|"<<s->getGPA()<<endl;
+}
+vector<Student*> DatabaseManager::loadStudents(){
+    vector<Student*>loadedStudents;
+    ifstream file("data/students.txt");
+    // string line;
+    // getline(file,line);
+     if(!file.is_open()) {
+        cout << "File not Opening! ERROR!\n";
+        return loadedStudents;
+    }
+    string id,name,type,email,strGPA;
+     float gpa;
+    while(getline(file,id,'|')){//while not end of file
+     
+     
+     getline(file,name,'|');;//reads till |
+     getline(file,email,'|');
+     getline(file,type,'|');
+     getline(file,strGPA);//reads gpa s string like this
+         gpa=stof(strGPA);//convert in float this avoids buffer error
+     if(type=="Exchange Student"){ //checking type and creating obj of that type to add to vector
+        loadedStudents.push_back(new ExchangeStudent (id,name,email));
+     } else if(type=="Regular Student"){
+        loadedStudents.push_back(new RegularStudent (id,name,email,gpa));
+     }else if(type=="Scholarship Student"){
+        loadedStudents.push_back(new ScholarshipStudent (id,name,email,gpa));
+     }
+
+    }
+    
+return loadedStudents;
 }

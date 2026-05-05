@@ -1,8 +1,13 @@
 #pragma once
 #include <fstream>
 #include "Student.h"
+#include "RegularStudent.h"
+#include "ExchangeStudent.h"
+#include "ScholarshipStudent.h"
+#include <vector>
 
 class DatabaseManager {
 public:
     static void saveStudent(Student* s);
+    static vector<Student*> loadStudents();
 };
