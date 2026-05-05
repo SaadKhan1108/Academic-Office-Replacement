@@ -18,4 +18,7 @@ public:
     float calculateGPA() override {
         return GPA;
     }
+    string getType() override{
+        return "Scholarship Student";
+    }
 };

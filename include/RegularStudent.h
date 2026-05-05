@@ -13,4 +13,7 @@ public:
     float calculateGPA() override {
         return GPA;
     }
+     string getType() override{
+        return "Regular Student";
+    }
 };
