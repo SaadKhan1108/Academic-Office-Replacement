@@ -10,8 +10,8 @@ class LabCourse:public Course{
         return "LabCourse";
      }
      float getExamDuration(){
-        return 4;//core course exam is 3hrs long
-     }
+        return 0;//lab has no exam
+            }
      float calculateFinalGrade(){
         
      }

@@ -13,7 +13,7 @@ class ElectiveCourse:public Course{
         return 1;//core course exam is 3hrs long
      }
      float calculateFinalGrade(){
-        
+        //no Final exam
      }
 
 };
