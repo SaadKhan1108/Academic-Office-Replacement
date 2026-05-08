@@ -35,6 +35,9 @@ vector<Student*> DatabaseManager::loadStudents(){
      }
 
     }
+    if(loadedStudents.empty()){
+        cout<<"No Students\n";
+    }
     
 return loadedStudents;
 }
