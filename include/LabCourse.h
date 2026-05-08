@@ -3,14 +3,14 @@
 using namespace std;
 
 
-class CoreCourse:public Course{
+class LabCourse:public Course{
      public:
-     CoreCourse(string Cid,string Tid,string title):Course(Cid,Tid,title){}
+     LabCourse(string Cid,string Tid,string title):Course(Cid,Tid,title){}
      string getType()override{
-        return "CoreCourse";
+        return "LabCourse";
      }
      float getExamDuration(){
-        return 3.0;//core course exam is 3hrs long
+        return 4;//core course exam is 3hrs long
      }
      float calculateFinalGrade(){
         

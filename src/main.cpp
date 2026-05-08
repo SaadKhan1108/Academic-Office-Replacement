@@ -13,11 +13,21 @@ int main() {
 //   students.push_back(new ScholarshipStudent("S2","Ali","email",2.0,3.0));
 //   students.push_back(new ExchangeStudent("S3","John","email"));
 
-  for(int i=0;i<students.size();i++){
-   // DatabaseManager::saveStudent(students[i]);
-      cout<<students[i]->getGPA()<<endl;
-  }
-     
+  // for(int i=0;i<students.size();i++){
+  //  // DatabaseManager::saveStudent(students[i]);
+  //     cout<<students[i]->getGPA()<<endl;
+  // }
+    Teacher* t1 = new Teacher("T1", "Ahmed", "ahmed@gmail.com");
+
+t1->setAvgFeedBackScore(4.5);
+
+DatabaseManager::saveTeacher(t1);
+
+vector<Teacher*> teachers = DatabaseManager::loadTeachers();
+
+for(int i = 0; i < teachers.size(); i++) {
+    teachers[i]->displayProfile();
+}
     // Student* s1 = new RegularStudent("S1","Saad","email",3.5);
     // Student* s2 = new ScholarshipStudent("S2","Ali","email",2.0,3.0);
     // Student* s3 = new ExchangeStudent("S3","John","email");

@@ -2,7 +2,9 @@
 #include "RegularStudent.h"
 #include "ExchangeStudent.h"
 #include "ScholarshipStudent.h"
+#include "Teacher.h"
 #include <fstream>
+//STUDENT FILES
 void DatabaseManager::saveStudent(Student* s) {
     ofstream file("data/students.txt",ios_base::app);//append mode to save prev data
     file << s->getID()<<"|"<<s->getName()<<"|"<<s->getEmail()<<"|"<<s->getType()<<"|"<<s->getGPA()<<endl;
@@ -40,4 +42,38 @@ vector<Student*> DatabaseManager::loadStudents(){
     }
     
 return loadedStudents;
+}
+//TEACHERS
+void DatabaseManager::saveTeacher(Teacher *t){
+    ofstream file("data/Teachers.txt",ios_base::app);//append mode to save prev data
+    file<<t->getID()<<"|"<<t->getName()<<"|"<<t->getEmail()<<"|"<<t->getAvgFeedBackScore()<<endl;
+}
+
+vector<Teacher*> DatabaseManager::loadTeachers(){
+    vector<Teacher*>loadedTeachers;
+    ifstream file("data/Teachers.txt");
+    
+     if(!file.is_open()) {
+        cout << "File not Opening! ERROR!\n";
+        return loadedTeachers;
+    }
+    string id,name,email,StrScore;
+    float avgScore;
+    while(getline(file,id,'|')){//while not end of file
+     
+     
+     getline(file,name,'|');;//reads till |
+     getline(file,email,'|');
+    
+     getline(file,StrScore);//reads feedback score as string like this
+         avgScore=stof(StrScore);//convert in float this avoids buffer error
+      Teacher* t = new Teacher(id, email, name);
+      t->setAvgFeedBackScore(avgScore);
+      loadedTeachers.push_back(t);
+    }
+    if(loadedTeachers.empty()){
+        cout<<"No Teachers\n";
+    }
+    
+return loadedTeachers;
 }
