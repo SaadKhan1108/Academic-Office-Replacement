@@ -1,57 +1,68 @@
 #include <iostream>
-#include "RegularStudent.h"
-#include "ScholarshipStudent.h"
-#include "ExchangeStudent.h"
-#include "DatabaseManager.h"
-#include "Course.h"
-#include "CoreCourse.h"
-#include "LabCourse.h"
-#include "ElectiveCourse.h"
 #include <vector>
+
+#include "DatabaseManager.h"
+#include "Student.h"
+#include "Teacher.h"
+#include "Course.h"
+
+#include "CoreCourse.h"
+#include "ElectiveCourse.h"
+#include "LabCourse.h"
 
 using namespace std;
 
 int main() {
-  vector<Student*> students=DatabaseManager::loadStudents();//make vector to store diff obj of students' child classes
-//   students.push_back(new RegularStudent("S1","Saad","email",3.5)); //pushback adds obj to end of vector
-//   students.push_back(new ScholarshipStudent("S2","Ali","email",2.0,3.0));
-//   students.push_back(new ExchangeStudent("S3","John","email"));
 
-  // for(int i=0;i<students.size();i++){
-  //  // DatabaseManager::saveStudent(students[i]);
-  //     cout<<students[i]->getGPA()<<endl;
-  // }
-//     Teacher* t1 = new Teacher("T1", "Ahmed", "ahmed@gmail.com");
+   DatabaseManager::saveStudent(new RegularStudent("S1","Saad","saad@gmail.com",3.5));
+DatabaseManager::saveStudent(new ScholarshipStudent("S2","Ali","ali@gmail.com",2.8));
+DatabaseManager::saveStudent(new ExchangeStudent("S3","John","john@gmail.com"));
+DatabaseManager::saveTeacher(new Teacher("T1","Ahmed","ahmed@gmail.com"));
+DatabaseManager::saveTeacher(new Teacher("T2","Usman","usman@gmail.com"));
+DatabaseManager::saveCourse(new CoreCourse("C1","OOP","T1"));
+DatabaseManager::saveCourse(new ElectiveCourse("C2","AI","T2"));
+DatabaseManager::saveCourse(new LabCourse("C3","PF Lab","T1"));
+cout << "===== LOADING STUDENTS =====\n";
+    vector<Student*> students = DatabaseManager::loadStudents();
 
-// t1->setAvgFeedBackScore(4.5);
+    for(int i = 0; i < students.size(); i++) {
+        students[i]->displayProfile();
+        cout << endl;
+    }
 
-// DatabaseManager::saveTeacher(t1);
+    cout << "===== LOADING TEACHERS =====\n";
+    vector<Teacher*> teachers = DatabaseManager::loadTeachers();
 
-// vector<Teacher*> teachers = DatabaseManager::loadTeachers();
+    for(int i = 0; i < teachers.size(); i++) {
+        teachers[i]->displayProfile();
+        cout << endl;
+    }
 
-// for(int i = 0; i < teachers.size(); i++) {
-//     teachers[i]->displayProfile();
-// }
-    // Student* s1 = new RegularStudent("S1","Saad","email",3.5);
-    // Student* s2 = new ScholarshipStudent("S2","Ali","email",2.0,3.0);
-    // Student* s3 = new ExchangeStudent("S3","John","email");
+    cout << "===== LOADING COURSES =====\n";
+    vector<Course*> courses = DatabaseManager::loadCourses();
 
-    // s1->displayProfile();
-    // s2->displayProfile();
-    // s3->displayProfile();
-    CoreCourse* c1 = new CoreCourse("C1", "OOP", "T1");
-ElectiveCourse* c2 = new ElectiveCourse("C2", "AI", "T2");
-LabCourse* c3 = new LabCourse("C3", "PF Lab", "T3");
-c3->enrollStudent(new RegularStudent("S1","SAAD","saad@gmail",3.65));
-DatabaseManager::saveCourse(c1);
-DatabaseManager::saveCourse(c2);
-DatabaseManager::saveCourse(c3);
+    for(int i = 0; i < courses.size(); i++) {
+        courses[i]->displayCourse();
 
-vector<Course*> courses = DatabaseManager::loadCourses();
+        cout << "Type: " << courses[i]->getType() << endl;
+        cout << "Students Enrolled: " << courses[i]->getStudentCount() << endl;
 
-for(int i = 0; i < courses.size(); i++) {
-    courses[i]->displayCourse();
-}
+        cout << endl;
+    }
+
+    cout << "===== TEST ENROLLMENT =====\n";
+    if(!students.empty() && !courses.empty()) {
+        courses[0]->enrollStudent(students[0]);
+        courses[0]->enrollStudent(students[0]); // duplicate test
+
+        cout << "After enrolling:\n";
+        courses[0]->displayCourse();
+        cout << "Students Enrolled: "
+             << courses[0]->getStudentCount() << endl;
+    }
+
+    cout << "===== TEST COMPLETE =====\n";
+
 
     return 0;
 }

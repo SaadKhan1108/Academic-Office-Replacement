@@ -1,3 +1,3 @@
 C1|OOP|T1|CoreCourse|0
 C2|AI|T2|ElectiveCourse|0
-C3|PF Lab|T3|LabCourse|1
+C3|PF Lab|T1|LabCourse|0

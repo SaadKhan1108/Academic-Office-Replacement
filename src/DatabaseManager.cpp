@@ -6,7 +6,6 @@
 #include "LabCourse.h"
 #include "ElectiveCourse.h"
 #include "Teacher.h"
-#include "Course.h"
 #include <fstream>
 //STUDENT FILES
 void DatabaseManager::saveStudent(Student* s) {

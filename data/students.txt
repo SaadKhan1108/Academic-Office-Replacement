@@ -1,3 +1,4 @@
-S1|Saad|email|Regular Student|3.5
-S2|Ali|email|Scholarship Student|2
-S3|John|email|Exchange Student|0
+
+S1|Saad|saad@gmail.com|Regular Student|3.5
+S2|Ali|ali@gmail.com|Scholarship Student|2.8
+S3|John|john@gmail.com|Exchange Student|0

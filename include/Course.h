@@ -1,5 +1,5 @@
 #pragma once
-#include<Student.h>
+#include"Student.h"
 #include<vector>
 using namespace std;
 
@@ -64,6 +64,5 @@ void enrollStudent(Student* s) {
         enrolledCount++;
     }
 }
-
 virtual void displayCourse()=0;
 };
