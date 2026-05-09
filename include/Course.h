@@ -9,15 +9,17 @@ class Course{
     string CourseID;
     string TeacherID;
     string title;
+    int enrolledCount;
     float examWeightage;
     float assignmentWeightage;
     float quizWeightage;
   vector<Student*> StudentsEnrolled;
   public:
-  Course(string Cid,string Tid,string title){
+  Course(string Cid,string title,string Tid){
     CourseID=Cid;
     TeacherID=Tid;
     this->title=title;
+    enrolledCount=0;
     examWeightage=0;
     assignmentWeightage=0;
     quizWeightage=0;
@@ -32,8 +34,11 @@ class Course{
     return title;
   }
   int getStudentCount() {
-        return StudentsEnrolled.size();
+      return enrolledCount;
     }
+    void setStudentCount(int count) {
+    enrolledCount = count;
+}
      void setWeightages(){}//read from file
 
   virtual float calculateFinalGrade()=0;
@@ -56,6 +61,9 @@ void enrollStudent(Student* s) {
     }
     if (found==false) {
         StudentsEnrolled.push_back(s);
+        enrolledCount++;
     }
 }
+
+virtual void displayCourse()=0;
 };

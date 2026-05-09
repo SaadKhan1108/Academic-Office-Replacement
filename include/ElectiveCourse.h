@@ -5,7 +5,7 @@ using namespace std;
 
 class ElectiveCourse:public Course{
      public:
-     ElectiveCourse(string Cid,string Tid,string title):Course(Cid,Tid,title){}
+     ElectiveCourse(string Cid,string title,string Tid):Course(Cid,title,Tid){}
      string getType()override{
         return "ElectiveCourse";
      }
@@ -14,6 +14,16 @@ class ElectiveCourse:public Course{
      }
      float calculateFinalGrade(){
         //no Final exam
+        return 0;
      }
+void displayCourse() override {
+    cout << "Type: " << getType() << endl;
+    cout << "Course ID: " << getCourseID() << endl;
+    cout << "Title: " << getTitle() << endl;
+    cout << "Teacher ID: " << getTeacherID() << endl;
+    cout << "Students Enrolled: "<< getStudentCount() << endl;
+    cout << "Exam Duration: "<< getExamDuration()<< " hours\n";
 
+    
+}
 };

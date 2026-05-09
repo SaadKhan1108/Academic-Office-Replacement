@@ -5,7 +5,7 @@ using namespace std;
 
 class LabCourse:public Course{
      public:
-     LabCourse(string Cid,string Tid,string title):Course(Cid,Tid,title){}
+     LabCourse(string Cid,string title,string Tid):Course(Cid,title,Tid){}
      string getType()override{
         return "LabCourse";
      }
@@ -13,7 +13,16 @@ class LabCourse:public Course{
         return 0;//lab has no exam
             }
      float calculateFinalGrade(){
-        
+        return 0;
      }
+void displayCourse() override {
+    cout << "Type: " << getType() << endl;
+    cout << "Course ID: " << getCourseID() << endl;
+    cout << "Title: " << getTitle() << endl;
+    cout << "Teacher ID: " << getTeacherID() << endl;
+    cout << "Students Enrolled: "<< getStudentCount() << endl;
+    
 
+    
+}
 };

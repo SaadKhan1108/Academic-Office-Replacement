@@ -2,7 +2,11 @@
 #include "RegularStudent.h"
 #include "ExchangeStudent.h"
 #include "ScholarshipStudent.h"
+#include "CoreCourse.h"
+#include "LabCourse.h"
+#include "ElectiveCourse.h"
 #include "Teacher.h"
+#include "Course.h"
 #include <fstream>
 //STUDENT FILES
 void DatabaseManager::saveStudent(Student* s) {
@@ -77,3 +81,44 @@ vector<Teacher*> DatabaseManager::loadTeachers(){
     
 return loadedTeachers;
 }
+//Courses
+ void DatabaseManager::saveCourse(Course*s){
+  ofstream file("data/Courses.txt",ios_base::app);//append mode to save prev data
+    file << s->getCourseID()<<"|"<<s->getTitle()<<"|"<<s->getTeacherID()<<"|"<<s->getType()<<"|"<<s->getStudentCount()<<endl;
+ }
+vector<Course*> DatabaseManager::loadCourses(){
+ vector<Course*>loadedCourses;
+    ifstream file("data/Courses.txt");
+    
+     if(!file.is_open()) {
+        cout << "File not Opening! ERROR!\n";
+        return loadedCourses;
+    }
+    string Cid,title,type,Tid,StrStuCount;
+    int StuCount=0;
+    while(getline(file,Cid,'|')){//while can read data
+     getline(file,title,'|');;//reads till |
+     getline(file,Tid,'|'); 
+     getline(file,type,'|');//reads feedback score as string like this
+     getline(file,StrStuCount);
+        StuCount=stoi(StrStuCount);
+      if(type=="CoreCourse"){ //checking type and creating obj of that type to add to vector
+       CoreCourse* obj = new CoreCourse(Cid, Tid, title);
+        obj->setStudentCount(StuCount);
+        loadedCourses.push_back(obj);
+     } else if(type=="ElectiveCourse"){
+        ElectiveCourse* obj = new ElectiveCourse(Cid, Tid, title);
+        obj->setStudentCount(StuCount);
+        loadedCourses.push_back(obj);
+     }else if(type=="LabCourse"){
+       LabCourse* obj = new LabCourse(Cid, Tid, title);
+        obj->setStudentCount(StuCount);
+        loadedCourses.push_back(obj);
+     }
+    }
+    if(loadedCourses.empty()){
+        cout<<"No Courses\n";
+    }
+    
+return loadedCourses;
+    }
