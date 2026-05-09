@@ -16,4 +16,5 @@ public:
     static vector<Teacher*> loadTeachers();
     static void saveCourse(Course*s);
     static vector<Course*> loadCourses();
+    static void saveWeightages(Course* c);
 };

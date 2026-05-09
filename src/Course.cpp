@@ -88,7 +88,7 @@ void Course::distributeWeightage(){
 }
 
 float Course::calculateFinalGrade(){
-    
+
     float total=0;
     if(Fexam!=nullptr){
         total += Fexam->getPercentage() *(Fexam->getWeightage() / 100);
@@ -100,4 +100,26 @@ float Course::calculateFinalGrade(){
         total+=assignments[i]->getPercentage() *(assignments[i]->getWeightage() / 100);
     }
     return total;
+}
+
+void Course::loadWeightages(){
+    ifstream file("data/weightages.txt");
+
+    if (!file.is_open()) {
+        cout << "Weightages file could not open\n";
+        return;
+    }
+    string courseType,strExam,strAssignment,strQuiz;
+    while (getline(file, courseType, '|')){
+        getline(file,strExam,'|');;//reads till |
+     getline(file,strAssignment,'|'); 
+     getline(file,strQuiz);
+     if (courseType == getType()){
+         examWeightage=stof(strExam);
+      assignmentWeightage=stof(strAssignment);
+      quizWeightage=stof(strQuiz);
+      break;
+    }
+    }
+     
 }

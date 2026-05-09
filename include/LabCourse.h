@@ -5,7 +5,9 @@ using namespace std;
 
 class LabCourse:public Course{
      public:
-     LabCourse(string Cid,string title,string Tid):Course(Cid,title,Tid){}
+     LabCourse(string Cid,string title,string Tid):Course(Cid,title,Tid){
+       loadWeightages();
+     }
      string getType()override{
         return "LabCourse";
      }

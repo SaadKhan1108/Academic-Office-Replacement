@@ -47,11 +47,19 @@ class Course{
   void setStudentCount(int count) {
     enrolledCount = count;
 }
-
+ float getExamWeightage(){
+  return examWeightage;
+ }
+ float getQuizWeightage(){
+  return quizWeightage;
+ }
+ float getAssignmentWeightage(){
+  return assignmentWeightage;
+ }
   void addQuiz(Quiz* q) ;
   void addAssignment(Assignment* q) ;
   void addExam(Exam* q) ; 
-
+void loadWeightages();
  float calculateFinalGrade();
   virtual float getExamDuration()=0;
 virtual string getType()=0;

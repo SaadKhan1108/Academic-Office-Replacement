@@ -121,3 +121,10 @@ vector<Course*> DatabaseManager::loadCourses(){
     
 return loadedCourses;
     }
+
+
+    //Weightage
+    void DatabaseManager:: saveWeightages(Course* c){
+         ofstream file("data/weightages.txt", ios::app);
+         file << c->getType() << "|"<< c->getExamWeightage() << "|"<< c->getAssignmentWeightage() << "|" << c->getQuizWeightage()<< endl;
+    }

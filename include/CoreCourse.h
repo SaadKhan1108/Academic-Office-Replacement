@@ -5,7 +5,9 @@ using namespace std;
 
 class CoreCourse:public Course{
      public:
-     CoreCourse(string Cid,string title,string Tid):Course(Cid,title,Tid){}
+     CoreCourse(string Cid,string title,string Tid):Course(Cid,title,Tid){
+       loadWeightages();
+     }
      string getType()override{
         return "CoreCourse";
      }

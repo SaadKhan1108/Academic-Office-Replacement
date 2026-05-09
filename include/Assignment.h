@@ -4,9 +4,9 @@
 class Assignment : public Assessment {
 public:
     Assignment(string id,float r,float m) : Assessment(id,"Assignment",r,m) {}
-     void displayWeightage(){
+     void displayAssessment(){
          cout << "Assignment ID: " << assessmentID << endl;
         cout << "Score: " << rawScore << "/" << maxScore << endl;
-        cout << "Weightage: " <<  induvidualWeightage << "%" << endl;
+        cout << "Weightage: " <<  weightage << "%" << endl;
     }
 };

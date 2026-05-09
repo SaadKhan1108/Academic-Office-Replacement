@@ -5,7 +5,9 @@ using namespace std;
 
 class ElectiveCourse:public Course{
      public:
-     ElectiveCourse(string Cid,string title,string Tid):Course(Cid,title,Tid){}
+     ElectiveCourse(string Cid,string title,string Tid):Course(Cid,title,Tid){
+       loadWeightages();
+     }
      string getType()override{
         return "ElectiveCourse";
      }

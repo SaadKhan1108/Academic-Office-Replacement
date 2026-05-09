@@ -4,10 +4,10 @@
 class Exam : public Assessment {
 public:
     Exam(string id,float r,float m):Assessment(id,"Exam",r,m) {}
-    void displayWeightage(){
+    void displayAssessment(){
          cout << "Exam ID: " << assessmentID << endl;
         cout << "Score: " << rawScore << "/" << maxScore << endl;
-        cout << "Weightage: " <<  induvidualWeightage << "%" << endl;
+        cout << "Weightage: " <<  weightage << "%" << endl;
     }
     
 

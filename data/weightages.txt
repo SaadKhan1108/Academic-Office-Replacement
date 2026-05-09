@@ -1,0 +1,3 @@
+CoreCourse|40|30|30
+ElectiveCourse|20|50|30
+LabCourse|0|60|40
