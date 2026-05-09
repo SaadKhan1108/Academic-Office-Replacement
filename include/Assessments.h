@@ -10,9 +10,12 @@ protected:
     float rawScore;
     float maxScore;
     float weightage;
+    float induvidualWeightage;//calculate from num of this type of assesmmnets
 
 public:
-    Assessment(string id, string t, float r, float m):assessmentID(id),type(t),rawScore(r),maxScore(m),weightage(0){}
+    Assessment(string id, string t, float r, float m):assessmentID(id),type(t),rawScore(r),maxScore(m),weightage(0){
+        induvidualWeightage=0;
+    }
     float getPercentage() {
         if (maxScore == 0) return 0;
         return (rawScore / maxScore) * 100;
@@ -29,4 +32,12 @@ public:
     void setWeightage(float w) {
         weightage = w;
     }
+     float getRawScore() {
+        return rawScore;
+    }
+
+    float getMaxScore() {
+        return maxScore;
+    }
+    virtual void displayAssessment() = 0;
 };

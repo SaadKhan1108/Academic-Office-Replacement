@@ -1,5 +1,9 @@
 #pragma once
 #include"Student.h"
+#include "Assessments.h"
+#include "Quiz.h"
+#include "Assignment.h"
+#include "Exams.h"
 #include<vector>
 using namespace std;
 
@@ -14,6 +18,9 @@ class Course{
     float assignmentWeightage;
     float quizWeightage;
   vector<Student*> StudentsEnrolled;
+  vector<Assessment*> quizzes;  //upto 5 quizzes
+ vector<Assessment*> assignments;
+ Assessment* Fexam;  //1 fExam
   public:
   Course(string Cid,string title,string Tid){
     CourseID=Cid;
@@ -23,6 +30,7 @@ class Course{
     examWeightage=0;
     assignmentWeightage=0;
     quizWeightage=0;
+    Fexam=nullptr;
   }
   string getCourseID(){
     return CourseID;
@@ -40,8 +48,43 @@ class Course{
     enrolledCount = count;
 }
      void setWeightages(){}//read from file
+void addQuiz(Quiz* q) {
+  bool exceededLimit=false;
+    if(quizzes.size() >= 5) {
+        cout << "Maximum 5 quizzes allowed\n";
+        exceededLimit=true;
+    }
+    if(exceededLimit==false){
+    quizzes.push_back(q);
+    }
+    //add code to redefine weights for each quiz
+}
+  
+void addAssignment(Assignment* q) {
+  bool exceededLimit=false;
+    if(assignments.size() >= 5) {
+        cout << "Maximum 5 assignments allowed\n";
+        exceededLimit=true;
+    }
+    if(exceededLimit==false){
+    assignments.push_back(q);
+    }
+    //add code to redefine weights for each quiz
+}
 
-  virtual float calculateFinalGrade()=0;
+void addExam(Exam* q) {
+  bool exceededLimit=false;
+    if(Fexam!=nullptr) {
+        cout << "Maximum 1 Final exam is allowed\n";
+        exceededLimit=true;
+    }
+    if(exceededLimit==false){
+    Fexam=q;
+    }
+    //add code to redefine weights for each quiz
+}
+
+virtual float calculateFinalGrade()=0;
   virtual float getExamDuration()=0;
 virtual string getType()=0;
 void enrollStudent(Student* s) {
@@ -65,4 +108,5 @@ void enrollStudent(Student* s) {
     }
 }
 virtual void displayCourse()=0;
+
 };
