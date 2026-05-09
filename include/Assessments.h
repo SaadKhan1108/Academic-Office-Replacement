@@ -39,5 +39,8 @@ public:
     float getMaxScore() {
         return maxScore;
     }
+    void setWeightages(float w){
+         induvidualWeightage=w;
+  }
     virtual void displayAssessment() = 0;
 };

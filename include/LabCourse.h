@@ -12,9 +12,7 @@ class LabCourse:public Course{
      float getExamDuration(){
         return 0;//lab has no exam
             }
-     float calculateFinalGrade(){
-        return 0;
-     }
+    
 void displayCourse() override {
     cout << "Type: " << getType() << endl;
     cout << "Course ID: " << getCourseID() << endl;

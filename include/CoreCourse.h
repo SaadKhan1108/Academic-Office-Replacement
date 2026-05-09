@@ -12,9 +12,7 @@ class CoreCourse:public Course{
      float getExamDuration(){
         return 3.0;//core course exam is 3hrs long
      }
-     float calculateFinalGrade(){
-        return 0;
-     }
+   
 void displayCourse() override {
     cout << "Type: " << getType() << endl;
     cout << "Course ID: " << getCourseID() << endl;
