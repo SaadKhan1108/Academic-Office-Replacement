@@ -15,4 +15,4 @@ class Scheduler{
     bool isConflict(string venueID,string timeSlot);
     void displaySchedule();
     bool checkCapacity(Venue*v,int numstudents);
-}
+};
