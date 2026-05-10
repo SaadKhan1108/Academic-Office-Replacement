@@ -1,13 +1,15 @@
 // 
-#include "CoreCourse.h"
+#include "LabCourse.h"
+#include "DatabaseManager.h"
 
 using namespace std;
 
 int main() {
 
-    CoreCourse c1("C1", "OOP", "T1");
+    LabCourse c1("C1", "OOP", "T1");
 
     c1.setOverallWeightage();
+    DatabaseManager::saveWeightages(&c1);
 
     cout << "\n===== SAVED WEIGHTAGES =====\n";
 

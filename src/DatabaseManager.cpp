@@ -128,4 +128,5 @@ return loadedCourses;
     void DatabaseManager:: saveWeightages(Course* c){
          ofstream file("data/weightages.txt", ios::app);
          file << c->getType() << "|"<< c->getExamWeightage() << "|"<< c->getAssignmentWeightage() << "|" << c->getQuizWeightage()<< endl;
-    }
+           cout<<"Weightages saved!\n";
+        }
