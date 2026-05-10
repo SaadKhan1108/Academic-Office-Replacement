@@ -3,6 +3,7 @@
 #include "Assessments.h"
 #include "Quiz.h"
 #include "Assignment.h"
+#include "Section.h"
 #include "Exams.h"
 #include<vector>
 using namespace std;
@@ -65,8 +66,8 @@ void loadWeightages();
  void inputAssessmentMarks(string assessmentID, float obtainedScore);
   virtual float getExamDuration()=0;
 virtual string getType()=0;
-void enrollStudent(Student* s);
+void enrollStudent(Student* s, string currentTimeSlot, const vector<Section*>& allSections, const vector<Course*>& allCourses);
 virtual void displayCourse()=0;
 void distributeWeightage();
-
+bool isStudentEnrolled(string studentID);
 };

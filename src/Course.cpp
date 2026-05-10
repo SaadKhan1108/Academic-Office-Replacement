@@ -6,7 +6,7 @@
 #include "Quiz.h"
 #include <fstream>
 
-void Course::enrollStudent(Student* s) {
+void Course::enrollStudent(Student* s,string currentTimeSlot, const vector<Section*>& allSections, const vector<Course*>& allCourses) {
 
     bool found = false;
 
@@ -25,11 +25,32 @@ void Course::enrollStudent(Student* s) {
             }
         }
     }
-    if (found==false) {
+    if (found == false) {//check if student is busy at that time in some other course
+        for (int i = 0; i < allSections.size(); i++) {
+            if (allSections[i]->getTimeSlot() == currentTimeSlot) {//check timeslot
+                string conflictCourseID = allSections[i]->getCourseID();
+                for (int j = 0; j < allCourses.size(); j++) {
+                    if (allCourses[j]->getCourseID() == conflictCourseID) {
+                        // Check if the student is already enrolled in that course
+                        if (allCourses[j]->isStudentEnrolled(s->getID())) {
+                            cout << "Conflict Error: Student already has a class at " << currentTimeSlot<< " in Course: " << conflictCourseID << endl;
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (found==true) {
+                 break;
+                }
+}
+    }
+if (found == false) {
         StudentsEnrolled.push_back(s);
         enrolledCount++;
+        cout << "Registration successful for " << s->getName() << " in " << this->getTitle() << endl;
     }
-    cout << "Registration successful for " << s->getName() << endl;
+
 }
 
 void Course::addQuiz(Quiz* q) {
@@ -163,6 +184,16 @@ void Course::loadWeightages(){
 
 
     
+}
+
+bool Course::isStudentEnrolled(string studentID){
+    for (int i = 0; i < StudentsEnrolled.size(); i++) {
+        if (StudentsEnrolled[i]->getID() == studentID) {
+            return true;
+        }
+    }
+    return false;
+
 }
 
 void Course::setOverallWeightage(){
