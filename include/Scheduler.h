@@ -15,4 +15,6 @@ class Scheduler{
     bool isConflict(string venueID,string timeSlot);
     void displaySchedule();
     bool checkCapacity(Venue*v,int numstudents);
+    bool sectionAssignment(Section*s,Venue* v,int numStudents);
+    string suggestNextSlot(string currentSlot);
 };
