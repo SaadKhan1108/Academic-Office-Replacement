@@ -61,6 +61,7 @@ class Course{
   void addExam(Exam* q) ; 
 void loadWeightages();
  float calculateFinalGrade();
+ void setOverallWeightage();
   virtual float getExamDuration()=0;
 virtual string getType()=0;
 void enrollStudent(Student* s);

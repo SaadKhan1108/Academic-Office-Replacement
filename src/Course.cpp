@@ -1,8 +1,9 @@
-#include "../include/Course.h"
+#include "Course.h"
 #include "Quiz.h"
 #include "Assessments.h"
 #include "Assignment.h"
 #include "Exams.h"
+#include "Quiz.h"
 #include <fstream>
 
 void Course::enrollStudent(Student* s) {
@@ -122,4 +123,118 @@ void Course::loadWeightages(){
     }
     }
      
+
+
+    
 }
+
+void Course::setOverallWeightage(){
+           bool validInput=false,isLab=false;
+           if(getType()=="LabCourse"){
+            isLab=true;
+            examWeightage=0;
+           }
+           while (validInput==false)
+           {
+           float inputExam = 0, inputAssignment = 0, inputQuiz = 0;
+           string strInput;
+           if(!isLab){
+            cout << "\nEnter Final Exam Weightage (min: 40, max: 50): ";
+            cin >> strInput;
+
+            bool isValidNum=true;
+            for(int i=0;i<strInput.length();i++){
+                char c=strInput[i];
+                if (c < '0' || c > '9') {
+                    if (c != '.'){
+                          isValidNum = false;
+                        break;
+                    }
+            }
+           }
+
+           if(!isValidNum){
+            cout<< "Error: Invalid data type. Please enter a number.\n";
+            cin.clear();
+            cin.ignore(1000,'\n');
+            continue;
+           }
+           inputExam=stof(strInput);
+
+           if (inputExam < 40 || inputExam > 50) {
+                cout << "Error: Final exam weightage must be between 40 and 50.\n";
+                cin.clear();
+                cin.ignore(1000, '\n');
+                continue;
+            }
+            examWeightage = inputExam;
+        }
+            cout << "Enter Assignments Weightage (min: 25): ";
+        cin >> strInput;
+        bool isValidNum=true;
+            for(int i=0;i<strInput.length();i++){
+                char c=strInput[i];
+                if (c < '0' || c > '9') {
+                    if (c != '.'){
+                          isValidNum = false;
+                        break;
+                    }
+            }
+           }
+
+           if(!isValidNum){
+            cout<< "Error: Invalid data type. Please enter a number.\n";
+            cin.clear();
+            cin.ignore(1000,'\n');
+            continue;
+           }
+           inputAssignment=stof(strInput);
+
+           if (inputAssignment<25) {
+                cout << "Error: Assignment weightage must be at least 25 .\n";
+                cin.clear();
+                cin.ignore(1000, '\n');
+                continue;
+            }
+            assignmentWeightage = inputAssignment;
+    
+              cout << "Enter Quizzes Weightage (min: 25): ";
+        cin >> strInput;
+          
+        isValidNum=true;
+            for(int i=0;i<strInput.length();i++){
+                char c=strInput[i];
+                if (c < '0' || c > '9') {
+                    if (c != '.'){
+                          isValidNum = false;
+                        break;
+                    }
+            }
+           }
+
+           if(!isValidNum){
+            cout<< "Error: Invalid data type. Please enter a number.\n";
+            cin.clear();
+            cin.ignore(1000,'\n');
+            continue;
+           }
+           inputQuiz=stof(strInput);
+
+           if (inputQuiz<25) {
+                cout << "Error: Quizzes weightage must be at least 25 .\n";
+                cin.clear();
+                cin.ignore(1000, '\n');
+                continue;
+            }
+            quizWeightage = inputQuiz;
+            float total = examWeightage + assignmentWeightage + quizWeightage;
+            if(total!=100.00){
+                cout<<"Total weightages must add upto 100\n";
+                continue;
+            }
+            validInput = true;
+            cout << "Weightages set successfully!\n";
+        }
+
+           
+    }

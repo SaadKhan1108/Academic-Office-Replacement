@@ -1,4 +1,5 @@
-#include "../include/DatabaseManager.h"
+#include "DatabaseManager.h"
+#include "Student.h"
 #include "RegularStudent.h"
 #include "ExchangeStudent.h"
 #include "ScholarshipStudent.h"
