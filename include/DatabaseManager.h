@@ -7,6 +7,7 @@
 #include "Teacher.h"
 #include "Course.h"
 #include "Venue.h"
+#include "Section.h"
 #include <vector>
 
 class DatabaseManager {
@@ -20,4 +21,6 @@ public:
     static void saveWeightages(Course* c);
     static vector<Venue*> loadVenues();
     static void saveVenue(Venue*v);
+    static void saveSection(Section* s);
+    static vector<Section*> loadSections();
 };

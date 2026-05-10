@@ -164,3 +164,39 @@ return loadedVenues;
              ofstream file("data/Venues.txt",ios_base::app);//append mode to save prev data
                 file << v->getID()<<"|"<<v->getCapacity()<<"|"<<v->getComputers()<<endl;
         }
+
+        //Section
+        void DatabaseManager::saveSection(Section* s) {
+
+    ofstream file("data/sections.txt", ios::app);
+    file << s->getSectionID()<<"|"<<s->getCourseID()<<"|"<<s->getTeacherID()<<"|"<<s->getVenue()<<"|"<<s->getTimeSlot()<<endl;
+        }
+
+        vector<Section*> DatabaseManager::loadSections() {
+
+    vector<Section*> loadedsections;
+    ifstream file("data/sections.txt");
+
+    if (!file.is_open()) {
+        cout << "Sections file not found\n";
+        return loadedsections;
+    }
+
+    string sid, cid, tid, vid, time;
+
+    while (getline(file, sid, '|')) {
+
+        getline(file, cid, '|');
+        getline(file, tid, '|');
+        getline(file, vid, '|');
+        getline(file, time);
+
+        Section* s = new Section(sid, cid, tid);
+        s->setVenue(vid);
+        s->setTime(time);
+
+        loadedsections.push_back(s);
+    }
+
+    return loadedsections;
+}
