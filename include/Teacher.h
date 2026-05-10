@@ -39,7 +39,10 @@ while(score<1 ||score>5){
 }
 string comment;
 cout<<"Enter a comment : ";
-cin>>comment;
+cin.ignore();
+getline(cin, comment);
+feedBackScores.push_back(score);
+feedBackComments.push_back(comment);
 double total = 0;
 
 for(int i = 0; i < feedBackScores.size(); i++) {
@@ -47,8 +50,7 @@ for(int i = 0; i < feedBackScores.size(); i++) {
 }
 
 avgFeedbackScore = total / feedBackScores.size();
-feedBackScores.push_back(score);
-feedBackComments.push_back(comment);
+
     }
     void displayProfile()override{
          cout<<"Teacher: \n";

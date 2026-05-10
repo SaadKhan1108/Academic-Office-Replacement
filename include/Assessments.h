@@ -34,7 +34,9 @@ public:
      float getRawScore() {
         return rawScore;
     }
-
+      void setRawScore(float obtainedMarks){
+        rawScore=obtainedMarks;
+      }
     float getMaxScore() {
         return maxScore;
     }

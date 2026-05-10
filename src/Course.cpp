@@ -12,7 +12,11 @@ void Course::enrollStudent(Student* s) {
 
     if (s == nullptr) {
         found = true;
-    } else { //dont add if obj is null OR student already enrolled
+    }else if(enrolledCount >= 50){
+        cout << "Error: Course Capacity Full!\n";
+        found =true;
+    }
+     else { //dont add if obj is null OR student already enrolled
         for (int i = 0; i < StudentsEnrolled.size(); i++) {
             if (StudentsEnrolled[i]->getID() == s->getID()) {
                 cout << "Student already enrolled\n";
@@ -25,6 +29,7 @@ void Course::enrollStudent(Student* s) {
         StudentsEnrolled.push_back(s);
         enrolledCount++;
     }
+    cout << "Registration successful for " << s->getName() << endl;
 }
 
 void Course::addQuiz(Quiz* q) {
@@ -101,6 +106,38 @@ float Course::calculateFinalGrade(){
         total+=assignments[i]->getPercentage() *(assignments[i]->getWeightage() / 100);
     }
     return total;
+}
+
+void Course::inputAssessmentMarks(string assessmentID, float obtainedScore) {
+    bool found = false;
+    if (Fexam != nullptr && Fexam->getID() == assessmentID) {
+        Fexam->setRawScore(obtainedScore); 
+        found = true;
+    }
+    if (found == false) {
+        for (int i = 0; i < quizzes.size(); i++) {
+            if (quizzes[i]->getID() == assessmentID) {
+                quizzes[i]->setRawScore(obtainedScore);
+                found = true;
+                break;
+            }
+        }
+    }
+    if (found == false) {
+        for (int i = 0; i < assignments.size(); i++) {
+            if (assignments[i]->getID() == assessmentID) {
+                assignments[i]->setRawScore(obtainedScore);
+                found = true;
+                break;
+            }
+        }
+    }
+    if (found == true) {
+        cout << "Marks updated for Assessment: " << assessmentID << endl;
+        cout << "Updated Course Grade: " << calculateFinalGrade() << "%" << endl;
+    } else {
+        cout << "Error: Assessment ID " << assessmentID << " not found." << endl;
+    }
 }
 
 void Course::loadWeightages(){

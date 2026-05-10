@@ -36,7 +36,7 @@ void Scheduler::displaySchedule() {
 
 }
 
-string Scheduler::suggestNextSlot(string currentSlot){
+string Scheduler::suggestNextSlot(string currentSlot,string venueID){
      string slots[] = {"8AM","11AM","2PM","5PM"};//times at wich exam can take place,3 hr gap
     int size = 4;
     for (int i = 0; i < size; i++) {
@@ -45,7 +45,7 @@ string Scheduler::suggestNextSlot(string currentSlot){
                 bool conflict = false;
                 for (int k = 0; k < sections.size(); k++) {
 
-                    if (sections[k]->getTimeSlot()==slots[j]) {
+                    if (sections[k]->getTimeSlot()==slots[j]&&sections[k]->getVenue() == venueID) {
                         conflict = true;
                         break;
                     }
@@ -59,17 +59,30 @@ string Scheduler::suggestNextSlot(string currentSlot){
     return "NO TIME SLOT AVAILABLE";
 }
 
- bool Scheduler::sectionAssignment(Section*s,Venue* v,int numStudents){
+ bool Scheduler::sectionAssignment(Section*s,Venue* v,int numStudents,const vector<Course*>&allCourses){
     if(s==nullptr || v==nullptr){
         return false;
     }
+    string courseType="";
+    for (int i = 0; i < allCourses.size(); i++) {
+        if (allCourses[i]->getCourseID() == s->getCourseID()) {
+            courseType = allCourses[i]->getType();
+            break;
+        }
+    }
+if (courseType == "LabCourse" && !v->getComputers()) {
+        cout << "Error: Lab Courses require a venue with computers!" << endl;
+        return false;
+    }
+
+
     if(checkCapacity(v,numStudents)==false){
         cout<<"Not enough capacity in Room\n";
         return false;
     }
-    string currentTime="8PM";
+    string currentTime="8AM";
     if (isConflict(v->getID(), currentTime)==true){
-         currentTime=suggestNextSlot(currentTime);
+         currentTime=suggestNextSlot(currentTime,v->getID());
          if(currentTime=="NO TIME SLOT AVAILABLE"){
             cout<<"NO TIME SLOT AVAILABLE\n";
             return false;
