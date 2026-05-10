@@ -124,9 +124,43 @@ return loadedCourses;
     }
 
 
-    //Weightage
+    //Weightage. load is in course
     void DatabaseManager:: saveWeightages(Course* c){
          ofstream file("data/weightages.txt", ios::app);
          file << c->getType() << "|"<< c->getExamWeightage() << "|"<< c->getAssignmentWeightage() << "|" << c->getQuizWeightage()<< endl;
            cout<<"Weightages saved!\n";
+        }
+
+        //Venue
+        vector<Venue*> DatabaseManager::loadVenues(){
+            vector<Venue*>loadedVenues;
+    ifstream file("data/Venues.txt");
+    
+     if(!file.is_open()) {
+        cout << "File not Opening! ERROR!\n";
+        return loadedVenues;
+    }
+    string id,cap,comp;
+    int intCap;
+    bool bComp;
+    while(getline(file,id,'|')){//while not end of file
+     
+     
+     getline(file,cap,'|');;//reads till |
+     getline(file,comp);
+    
+         intCap=stoi(cap);//convert in int this avoids buffer error
+      bComp=stoi(comp);
+     
+      loadedVenues.push_back(new Venue(id,intCap,bComp));
+    }
+    if(loadedVenues.empty()){
+        cout<<"No Teachers\n";
+    }
+    
+return loadedVenues;
+        }
+        void DatabaseManager::saveVenue(Venue*v){
+             ofstream file("data/Venues.txt",ios_base::app);//append mode to save prev data
+                file << v->getID()<<"|"<<v->getCapacity()<<"|"<<v->getComputers()<<endl;
         }
