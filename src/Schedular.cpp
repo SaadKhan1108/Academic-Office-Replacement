@@ -92,6 +92,6 @@ if (courseType == "LabCourse" && !v->getComputers()) {
         s->setTime(currentTime);
         sections.push_back(s);
          DatabaseManager::saveSection(s); //store section save it in file so slot is filled and cant be used by other section
-         cout << "Section assigned successfully\n";
+         cout << "Section " << s->getSectionID() <<" assigned successfully\n";
          return true;
 }

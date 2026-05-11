@@ -9,14 +9,30 @@ public:
         : Student(id, n, e, g), minGPA(min) {}
 
     void displayProfile() override {
-        cout << "Scholarship Student: " << name;
-        if(GPA < minGPA)
-            cout << " (On Probation)";
-        cout << endl;
+    cout << "Scholatship Student" << endl;
+    cout << "ID: " << ID << endl;
+    cout<<" Name: " << name << endl;
+    cout << "GPA: " << GPA << "    Min Required: " << minGPA << endl;
+    if(GPA < minGPA) {
+        cout << " ON PROBATION" << endl;
+    } else {
+        cout << " NOT ON PROBATION" << endl;
     }
+}
 
     float calculateGPA() override {
-        return GPA;
+       if(coursesEnrolledIn.empty()){
+        return 0.0;
+       }
+       float totalPoints=0;
+       for(int i=0;i<coursesEnrolledIn.size();i++){
+        totalPoints+=coursesEnrolledIn[i]->calculateFinalGrade();
+       }
+       float avgP=totalPoints/coursesEnrolledIn.size();  
+       float gpa=(avgP/100.0)*4.0;
+       GPA=gpa;
+       return gpa;
+
     }
     string getType() override{
         return "Scholarship Student";
