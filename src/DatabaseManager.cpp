@@ -200,3 +200,95 @@ return loadedVenues;
 
     return loadedsections;
 }
+//Assesments
+
+void DatabaseManager::saveAssessment(string sectionID, string type, float raw, float max) {
+    ofstream file("data/assessments.txt", ios_base::app);
+    if (file.is_open()) {
+        file << sectionID << "|" << type << "|" << raw << "|" << max << endl;
+        file.close();
+    }
+}
+
+void DatabaseManager::loadAssessments(vector<Course*>& allCourses, const vector<Section*>& allSections) {
+    ifstream file("data/assessments.txt");
+    if (!file.is_open()) {
+        cout<<"Error! file could not open\n";
+        return;
+    }
+    string sectionID, type, strRaw, strMax;
+    while (getline(file, sectionID, '|')) {
+        getline(file, type, '|');
+        getline(file, strRaw, '|');
+        getline(file, strMax);
+
+        float raw = stof(strRaw);
+        float max = stof(strMax);
+
+        // find which courseID belongs to this sectionID
+        string targetCourseID = "";
+        for (int i = 0; i < allSections.size(); i++) {
+            if (allSections[i]->getSectionID() == sectionID) {//search sections to find this section ang get courseID
+                targetCourseID = allSections[i]->getCourseID();
+                break;
+            }
+        }
+ //Find that Course object and add the assessment
+        if (targetCourseID != "") {
+            for (int i = 0; i < allCourses.size(); i++) {
+                if (allCourses[i]->getCourseID() == targetCourseID) {
+                    if (type == "Quiz") {
+                        allCourses[i]->addQuiz(new Quiz("Q_" + sectionID, raw, max));
+                    } else if (type == "Assignment") {
+                        allCourses[i]->addAssignment(new Assignment("A_" + sectionID, raw, max));
+                    } else if (type == "Exam") {
+                        allCourses[i]->addExam(new Exam("E_" + sectionID, raw, max));
+                    }
+                    break; 
+                }
+            }
+        }
+    }
+}
+
+//save students enrolled in courses
+// In DatabaseManager.cpp
+
+void DatabaseManager::saveEnrollment(string studentID, string courseID) {
+    ofstream file("data/enrollments.txt", ios::app);
+    if (file.is_open()) {
+        file << studentID << "|" << courseID << endl;
+        file.close();
+    }
+}
+
+void DatabaseManager::loadEnrollments(vector<Student*>& allStudents, vector<Course*>& allCourses) {
+    ifstream file("data/enrollments.txt");
+    if (!file.is_open()) {
+        cout<<"Error! File could not open\n";
+        return;
+    }
+
+    string sID, cID;
+    while (getline(file, sID, '|')) {
+        getline(file, cID); 
+        Student* foundStudent = nullptr;
+        Course* foundCourse = nullptr;
+
+        for (int i = 0; i < allStudents.size(); i++) {
+            if (allStudents[i]->getID() == sID) {
+                foundStudent = allStudents[i];
+                break;
+            }
+        }
+        for (int i = 0; i < allCourses.size(); i++) {
+            if (allCourses[i]->getCourseID() == cID) {
+                foundCourse = allCourses[i];
+                break;
+            }
+        }
+        if (foundStudent != nullptr && foundCourse != nullptr) {
+            foundCourse->restoreStudent(foundStudent);
+        }
+    }
+}

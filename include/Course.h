@@ -70,4 +70,5 @@ void enrollStudent(Student* s, string currentTimeSlot, const vector<Section*>& a
 virtual void displayCourse()=0;
 void distributeWeightage();
 bool isStudentEnrolled(string studentID);
+void restoreStudent(Student* s);
 };

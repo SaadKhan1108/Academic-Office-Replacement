@@ -4,6 +4,7 @@
 #include "Assignment.h"
 #include "Exams.h"
 #include "Quiz.h"
+#include "DatabaseManager.h"
 #include <fstream>
 
 void Course::enrollStudent(Student* s,string currentTimeSlot, const vector<Section*>& allSections, const vector<Course*>& allCourses) {
@@ -45,11 +46,15 @@ void Course::enrollStudent(Student* s,string currentTimeSlot, const vector<Secti
                 }
 }
     }
+
 if (found == false) {
-        StudentsEnrolled.push_back(s);
-        enrolledCount++;
-        cout << "Registration successful for " << s->getName() << " in " << this->getTitle() << endl;
-    }
+    StudentsEnrolled.push_back(s);
+    s->addCourse(this); 
+    enrolledCount++;
+ 
+    DatabaseManager::saveEnrollment(s->getID(), this->getCourseID());
+    cout << "Registration successful for " << s->getName() << " in " << this->getTitle() << endl;
+}
 
 }
 
@@ -306,3 +311,8 @@ void Course::setOverallWeightage(){
 
            
     }
+
+void Course::restoreStudent(Student* s){
+    StudentsEnrolled.push_back(s);
+    s->addCourse(this);
+}

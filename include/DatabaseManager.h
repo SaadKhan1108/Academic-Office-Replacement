@@ -23,4 +23,9 @@ public:
     static void saveVenue(Venue*v);
     static void saveSection(Section* s);
     static vector<Section*> loadSections();
+    static void saveAssessment(string sectionID, string type, float raw, float max);
+    void DatabaseManager::loadAssessments(vector<Course*>& allCourses, const vector<Section*>& allSections);
+  
+   static void saveEnrollment(string studentID, string courseID);
+   static void loadEnrollments(vector<Student*>& allStudents, vector<Course*>& allCourses);
 };
