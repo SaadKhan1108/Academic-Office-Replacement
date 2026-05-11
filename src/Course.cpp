@@ -93,7 +93,6 @@ void Course::addExam(Exam* q) {
     if(exceededLimit==false){
     Fexam=q;
     }
-    //add code to redefine weights for each quiz
     distributeWeightage();
 }
 void Course::distributeWeightage(){
@@ -136,14 +135,19 @@ float Course::calculateFinalGrade(){
 
 void Course::inputAssessmentMarks(string assessmentID, float obtainedScore) {
     bool found = false;
+    Assessment* targetAssessment = nullptr; 
+
     if (Fexam != nullptr && Fexam->getID() == assessmentID) {
         Fexam->setRawScore(obtainedScore); 
+        targetAssessment = Fexam; 
         found = true;
     }
+
     if (found == false) {
         for (int i = 0; i < quizzes.size(); i++) {
             if (quizzes[i]->getID() == assessmentID) {
                 quizzes[i]->setRawScore(obtainedScore);
+                targetAssessment = quizzes[i];
                 found = true;
                 break;
             }
@@ -153,12 +157,15 @@ void Course::inputAssessmentMarks(string assessmentID, float obtainedScore) {
         for (int i = 0; i < assignments.size(); i++) {
             if (assignments[i]->getID() == assessmentID) {
                 assignments[i]->setRawScore(obtainedScore);
+                targetAssessment = assignments[i];
                 found = true;
                 break;
             }
         }
     }
-    if (found == true) {
+
+    if (found == true && targetAssessment != nullptr) {
+            DatabaseManager::saveAssessment(this->CourseID, targetAssessment->getType(), obtainedScore, targetAssessment->getMaxScore());    
         cout << "Marks updated for Assessment: " << assessmentID << endl;
         cout << "Updated Course Grade: " << calculateFinalGrade() << "%" << endl;
     } else {

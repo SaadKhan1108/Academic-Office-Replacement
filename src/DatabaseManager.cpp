@@ -251,9 +251,7 @@ void DatabaseManager::loadAssessments(vector<Course*>& allCourses, const vector<
     }
 }
 
-//save students enrolled in courses
-// In DatabaseManager.cpp
-
+//enrolled students
 void DatabaseManager::saveEnrollment(string studentID, string courseID) {
     ofstream file("data/enrollments.txt", ios::app);
     if (file.is_open()) {
