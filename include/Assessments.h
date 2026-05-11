@@ -15,6 +15,7 @@ public:
     Assessment(string id, string t, float r, float m):assessmentID(id),type(t),rawScore(r),maxScore(m){
         weightage=0;
     }
+    virtual ~Assessment() {}
     float getPercentage() {
         if (maxScore == 0) return 0;
         return (rawScore / maxScore) * 100;

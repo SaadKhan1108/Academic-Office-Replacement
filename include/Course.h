@@ -36,6 +36,17 @@ class Course{
   string getCourseID(){
     return CourseID;
   }
+  virtual ~Course() {
+    for (int i = 0; i < quizzes.size(); i++) {
+        delete quizzes[i];
+    }
+    for (int i = 0; i < assignments.size(); i++) {
+        delete assignments[i];
+    }
+    if (Fexam != nullptr) {
+        delete Fexam;
+    }
+}
   string getTeacherID(){
     return TeacherID;
   }

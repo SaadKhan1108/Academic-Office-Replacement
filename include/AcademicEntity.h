@@ -12,6 +12,6 @@ public:
         name = n;
         email = e;
     }
-
+virtual ~AcademicEntity() {}
     virtual void displayProfile() = 0;
 };
