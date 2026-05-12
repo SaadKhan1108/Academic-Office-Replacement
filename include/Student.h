@@ -1,6 +1,7 @@
 #pragma once
 #include "AcademicEntity.h"
 #include <vector>
+class Course;
 class Student : public AcademicEntity {
 protected:
     float GPA;

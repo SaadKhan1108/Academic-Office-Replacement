@@ -1,6 +1,7 @@
 #include "Course.h"
 #include "Quiz.h"
 #include "Assessments.h"
+#include "Student.h"
 #include "Assignment.h"
 #include "Exams.h"
 #include "Quiz.h"

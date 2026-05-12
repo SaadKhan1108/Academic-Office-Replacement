@@ -1,0 +1,4 @@
+SEC01|Quiz|8.5|10
+SEC01|Assignment|15|20
+SEC01|Exam|75|100
+SEC02|Quiz|9|10

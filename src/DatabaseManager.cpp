@@ -28,13 +28,17 @@ vector<Student*> DatabaseManager::loadStudents(){
     string id,name,type,email,strGPA;
      float gpa;
     while(getline(file,id,'|')){//while not end of file
-     
+     try{
      
      getline(file,name,'|');;//reads till |
      getline(file,email,'|');
      getline(file,type,'|');
      getline(file,strGPA);//reads gpa s string like this
-         gpa=stof(strGPA);//convert in float this avoids buffer error
+     if(strGPA.empty()){
+        throw string("Missing GPA data");
+     }
+       
+     gpa=stof(strGPA);//convert in float this avoids buffer error
      if(type=="Exchange Student"){ //checking type and creating obj of that type to add to vector
         loadedStudents.push_back(new ExchangeStudent (id,name,email));
      } else if(type=="Regular Student"){
@@ -42,7 +46,10 @@ vector<Student*> DatabaseManager::loadStudents(){
      }else if(type=="Scholarship Student"){
         loadedStudents.push_back(new ScholarshipStudent (id,name,email,gpa));
      }
-
+    }
+catch(string error){
+    cout<<"Skipping Student "<<id<<" : "<<error<<endl;
+}
     }
     if(loadedStudents.empty()){
         cout<<"No Students\n";
@@ -230,6 +237,10 @@ void DatabaseManager::loadAssessments(vector<Course*>& allCourses, const vector<
     }
     string sectionID, type, strRaw, strMax;
     while (getline(file, sectionID, '|')) {
+       try{
+        if (sectionID.empty()){ 
+            continue;
+        }
         getline(file, type, '|');
         getline(file, strRaw, '|');
         getline(file, strMax);
@@ -260,7 +271,11 @@ void DatabaseManager::loadAssessments(vector<Course*>& allCourses, const vector<
                 }
             }
         }
+    }catch(string error){
+cout << "Skipping Assessment for " << sectionID << ": " << error << endl;
+            continue;
     }
+}
 }
 
 //enrolled students

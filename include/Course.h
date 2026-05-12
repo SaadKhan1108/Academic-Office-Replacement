@@ -1,5 +1,4 @@
 #pragma once
-#include"Student.h"
 #include "Assessments.h"
 #include "Quiz.h"
 #include "Assignment.h"
@@ -8,7 +7,7 @@
 #include<vector>
 using namespace std;
 
-
+class Student;
 class Course{
     protected:
     string CourseID;

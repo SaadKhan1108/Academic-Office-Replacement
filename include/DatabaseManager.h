@@ -24,7 +24,7 @@ static void saveAllVenues(const vector<Venue*>& allVenues);
     static void saveAllSections(const vector<Section*>& allSections);
     static vector<Section*> loadSections();
     static void saveAssessment(string sectionID, string type, float raw, float max);
-    void DatabaseManager::loadAssessments(vector<Course*>& allCourses, const vector<Section*>& allSections);
+     static void loadAssessments(vector<Course*>& allCourses, const vector<Section*>& allSections);
   
    static void saveEnrollment(string studentID, string courseID);
    static void loadEnrollments(vector<Student*>& allStudents, vector<Course*>& allCourses);
