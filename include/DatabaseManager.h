@@ -12,16 +12,16 @@
 
 class DatabaseManager {
 public:
-    static void saveStudent(Student* s);
+    static void saveAllStudents(const vector<Student*>& allStudents);
     static vector<Student*> loadStudents();
-    static void saveTeacher(Teacher *t);
+   static void saveAllTeachers(const vector<Teacher*>& allTeachers);
     static vector<Teacher*> loadTeachers();
-    static void saveCourse(Course*s);
+  static void saveAllCourses(const vector<Course*>& allCourses);
     static vector<Course*> loadCourses();
     static void saveWeightages(Course* c);
     static vector<Venue*> loadVenues();
-    static void saveVenue(Venue*v);
-    static void saveSection(Section* s);
+static void saveAllVenues(const vector<Venue*>& allVenues);
+    static void saveAllSections(const vector<Section*>& allSections);
     static vector<Section*> loadSections();
     static void saveAssessment(string sectionID, string type, float raw, float max);
     void DatabaseManager::loadAssessments(vector<Course*>& allCourses, const vector<Section*>& allSections);

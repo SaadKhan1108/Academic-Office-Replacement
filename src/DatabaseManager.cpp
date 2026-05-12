@@ -9,9 +9,12 @@
 #include "Teacher.h"
 #include <fstream>
 //STUDENT FILES
-void DatabaseManager::saveStudent(Student* s) {
-    ofstream file("data/students.txt",ios_base::app);//append mode to save prev data
-    file << s->getID()<<"|"<<s->getName()<<"|"<<s->getEmail()<<"|"<<s->getType()<<"|"<<s->getGPA()<<endl;
+void DatabaseManager::saveAllStudents(const vector<Student*>& allStudents) {
+    ofstream file("data/students.txt");
+
+    for(int i = 0; i < allStudents.size(); i++) {
+            file << allStudents[i]->getID() << "|"<< allStudents[i]->getName() << "|"<< allStudents[i]->getEmail() << "|"<< allStudents[i]->getType() << "|"<< allStudents[i]->getGPA() << endl;
+        }
 }
 vector<Student*> DatabaseManager::loadStudents(){
     vector<Student*>loadedStudents;
@@ -48,9 +51,11 @@ vector<Student*> DatabaseManager::loadStudents(){
 return loadedStudents;
 }
 //TEACHERS
-void DatabaseManager::saveTeacher(Teacher *t){
-    ofstream file("data/Teachers.txt",ios_base::app);//append mode to save prev data
-    file<<t->getID()<<"|"<<t->getName()<<"|"<<t->getEmail()<<"|"<<t->getAvgFeedBackScore()<<endl;
+void DatabaseManager::saveAllTeachers(const vector<Teacher*>& allTeachers){
+    ofstream file("data/Teachers.txt");
+    for(int i = 0; i < allTeachers.size(); i++) {
+            file << allTeachers[i]->getID() << "|" << allTeachers[i]->getName() << "|" << allTeachers[i]->getEmail() << "|"<< allTeachers[i]->getAvgFeedBackScore() << endl;
+        }
 }
 
 vector<Teacher*> DatabaseManager::loadTeachers(){
@@ -82,9 +87,11 @@ vector<Teacher*> DatabaseManager::loadTeachers(){
 return loadedTeachers;
 }
 //Courses
- void DatabaseManager::saveCourse(Course*s){
-  ofstream file("data/Courses.txt",ios_base::app);//append mode to save prev data
-    file << s->getCourseID()<<"|"<<s->getTitle()<<"|"<<s->getTeacherID()<<"|"<<s->getType()<<"|"<<s->getStudentCount()<<endl;
+ void DatabaseManager::saveAllCourses(const vector<Course*>& allCourses){
+  ofstream file("data/Courses.txt");
+    for(int i = 0; i < allCourses.size(); i++) {
+            file << allCourses[i]->getType() << "|" << allCourses[i]->getCourseID() << "|"<< allCourses[i]->getTitle() << "|"<< allCourses[i]->getTeacherID() << endl;
+        }
  }
 vector<Course*> DatabaseManager::loadCourses(){
  vector<Course*>loadedCourses;
@@ -160,16 +167,21 @@ return loadedCourses;
     
 return loadedVenues;
         }
-        void DatabaseManager::saveVenue(Venue*v){
-             ofstream file("data/Venues.txt",ios_base::app);//append mode to save prev data
-                file << v->getID()<<"|"<<v->getCapacity()<<"|"<<v->getComputers()<<endl;
+      void DatabaseManager::saveAllVenues(const vector<Venue*>& allVenues){
+             ofstream file("data/Venues.txt");
+             for(int i = 0; i < allVenues.size(); i++){
+            file << allVenues[i]->getID() << "|" << allVenues[i]->getCapacity() << "|"<< allVenues[i]->getComputers() << endl;
         }
+    }
+        
 
         //Section
-        void DatabaseManager::saveSection(Section* s) {
+        void DatabaseManager::saveAllSections(const vector<Section*>& allSections) {
 
-    ofstream file("data/sections.txt", ios::app);
-    file << s->getSectionID()<<"|"<<s->getCourseID()<<"|"<<s->getTeacherID()<<"|"<<s->getVenue()<<"|"<<s->getTimeSlot()<<endl;
+    ofstream file("data/sections.txt");
+    for(int i = 0; i < allSections.size(); i++) {
+            file << allSections[i]->getSectionID() << "|" << allSections[i]->getCourseID()<< "|"<<allSections[i]->getTeacherID()<< "|"<<allSections[i]->getVenue()<< "|"<< allSections[i]->getTimeSlot() << endl;
+        }
         }
 
         vector<Section*> DatabaseManager::loadSections() {
