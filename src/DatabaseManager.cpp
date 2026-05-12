@@ -28,6 +28,7 @@ vector<Student*> DatabaseManager::loadStudents(){
     string id,name,type,email,strGPA;
      float gpa;
     while(getline(file,id,'|')){//while not end of file
+        if(id.empty() || id == "\n" || id == "\r") continue;
      try{
      
      getline(file,name,'|');;//reads till |
@@ -49,6 +50,8 @@ vector<Student*> DatabaseManager::loadStudents(){
     }
 catch(string error){
     cout<<"Skipping Student "<<id<<" : "<<error<<endl;
+}catch(...) {
+    continue;
 }
     }
     if(loadedStudents.empty()){
@@ -76,8 +79,8 @@ vector<Teacher*> DatabaseManager::loadTeachers(){
     string id,name,email,StrScore;
     float avgScore;
     while(getline(file,id,'|')){//while not end of file
-     
-     
+     if(id.empty() || id == "\n" || id == "\r") continue;
+     try {
      getline(file,name,'|');;//reads till |
      getline(file,email,'|');
     
@@ -86,7 +89,10 @@ vector<Teacher*> DatabaseManager::loadTeachers(){
       Teacher* t = new Teacher(id, email, name);
       t->setAvgFeedBackScore(avgScore);
       loadedTeachers.push_back(t);
+    }catch(...){
+     continue;
     }
+}
     if(loadedTeachers.empty()){
         cout<<"No Teachers\n";
     }
@@ -111,6 +117,8 @@ vector<Course*> DatabaseManager::loadCourses(){
     string Cid,title,type,Tid,StrStuCount;
     int StuCount=0;
     while(getline(file,Cid,'|')){//while can read data
+        if(Cid.empty() || Cid == "\n" || Cid == "\r") continue;
+        try{
      getline(file,title,'|');;//reads till |
      getline(file,Tid,'|'); 
      getline(file,type,'|');//reads feedback score as string like this
@@ -129,6 +137,9 @@ vector<Course*> DatabaseManager::loadCourses(){
         obj->setStudentCount(StuCount);
         loadedCourses.push_back(obj);
      }
+    }catch(...){
+        continue;
+    }
     }
     if(loadedCourses.empty()){
         cout<<"No Courses\n";
@@ -158,7 +169,8 @@ return loadedCourses;
     int intCap;
     bool bComp;
     while(getline(file,id,'|')){//while not end of file
-     
+     if(id.empty() || id == "\n" || id == "\r") continue; 
+        try {
      
      getline(file,cap,'|');;//reads till |
      getline(file,comp);
@@ -167,7 +179,10 @@ return loadedCourses;
       bComp=stoi(comp);
      
       loadedVenues.push_back(new Venue(id,intCap,bComp));
+    }catch(...){
+continue;
     }
+}
     if(loadedVenues.empty()){
         cout<<"No Teachers\n";
     }
@@ -237,10 +252,8 @@ void DatabaseManager::loadAssessments(vector<Course*>& allCourses, const vector<
     }
     string sectionID, type, strRaw, strMax;
     while (getline(file, sectionID, '|')) {
+        if (sectionID.empty() || sectionID == "\n" || sectionID == "\r") continue;
        try{
-        if (sectionID.empty()){ 
-            continue;
-        }
         getline(file, type, '|');
         getline(file, strRaw, '|');
         getline(file, strMax);
@@ -274,6 +287,8 @@ void DatabaseManager::loadAssessments(vector<Course*>& allCourses, const vector<
     }catch(string error){
 cout << "Skipping Assessment for " << sectionID << ": " << error << endl;
             continue;
+    } catch(...){
+        continue;
     }
 }
 }
@@ -296,6 +311,7 @@ void DatabaseManager::loadEnrollments(vector<Student*>& allStudents, vector<Cour
 
     string sID, cID;
     while (getline(file, sID, '|')) {
+        if (sID.empty() || sID == "\n" || sID == "\r") continue;
         getline(file, cID); 
         Student* foundStudent = nullptr;
         Course* foundCourse = nullptr;

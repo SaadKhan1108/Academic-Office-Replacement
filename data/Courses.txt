@@ -1,3 +1,0 @@
-CoreCourse|CS101|Programming Fundamentals|T001
-LabCourse|CS101L|Programming Lab|T001
-ElectiveCourse|HU102|Technical Writing|T002
