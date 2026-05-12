@@ -74,7 +74,11 @@ void Course::addExam(Exam* q) {
 float Course::calculateFinalGrade(string studentID) {
     float total = 0;
     int studentExamCount = 0;
-    for(int i=0; i<exams.size(); i++) if(exams[i]->getStudentID() == studentID) studentExamCount++;
+    for(int i=0; i<exams.size(); i++) {
+        if(exams[i]->getStudentID() == studentID) {
+            studentExamCount++;
+        }
+    }
     for(int i=0; i<exams.size(); i++){
         if(exams[i]->getStudentID() == studentID) {
             float weight = (studentExamCount > 0) ? (examWeightage / studentExamCount) : 0;
