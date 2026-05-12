@@ -114,29 +114,26 @@ vector<Course*> DatabaseManager::loadCourses(){
         cout << "File not Opening! ERROR!\n";
         return loadedCourses;
     }
-    string Cid,title,type,Tid,StrStuCount;
-    int StuCount=0;
-    while(getline(file,Cid,'|')){//while can read data
-        if(Cid.empty() || Cid == "\n" || Cid == "\r") continue;
-        try{
-     getline(file,title,'|');;//reads till |
-     getline(file,Tid,'|'); 
-     getline(file,type,'|');//reads feedback score as string like this
-     getline(file,StrStuCount);
-        StuCount=stoi(StrStuCount);
+    string Cid,title,type,Tid;
+   
+    while(getline(file, type, '|')){ 
+        if(type.empty() || type == "\n" || type == "\r") continue;   
+        try {
+     getline(file, Cid, '|'); 
+     getline(file, title, '|');
+    getline(file, Tid);
+     
+       
       if(type=="CoreCourse"){ //checking type and creating obj of that type to add to vector
-       CoreCourse* obj = new CoreCourse(Cid, Tid, title);
-        obj->setStudentCount(StuCount);
-        loadedCourses.push_back(obj);
-     } else if(type=="ElectiveCourse"){
-        ElectiveCourse* obj = new ElectiveCourse(Cid, Tid, title);
-        obj->setStudentCount(StuCount);
-        loadedCourses.push_back(obj);
-     }else if(type=="LabCourse"){
-       LabCourse* obj = new LabCourse(Cid, Tid, title);
-        obj->setStudentCount(StuCount);
-        loadedCourses.push_back(obj);
-     }
+      CoreCourse* obj = new CoreCourse(Cid, Tid, title);
+      loadedCourses.push_back(obj);
+            } else if(type=="ElectiveCourse"){
+      ElectiveCourse* obj = new ElectiveCourse(Cid, Tid, title);
+      loadedCourses.push_back(obj);
+            } else if(type=="LabCourse"){
+     LabCourse* obj = new LabCourse(Cid, Tid, title);
+     loadedCourses.push_back(obj);
+            }
     }catch(...){
         continue;
     }
@@ -236,10 +233,10 @@ return loadedVenues;
 }
 //Assesments
 
-void DatabaseManager::saveAssessment(string sectionID, string type, float raw, float max) {
+void DatabaseManager::saveAssessment(string courseID, string studentID, string type, float raw, float max) {
     ofstream file("data/assessments.txt", ios_base::app);
     if (file.is_open()) {
-        file << sectionID << "|" << type << "|" << raw << "|" << max << endl;
+        file << courseID << "|" << studentID << "|" << type << "|" << raw << "|" << max << endl;
         file.close();
     }
 }
@@ -247,50 +244,46 @@ void DatabaseManager::saveAssessment(string sectionID, string type, float raw, f
 void DatabaseManager::loadAssessments(vector<Course*>& allCourses, const vector<Section*>& allSections) {
     ifstream file("data/assessments.txt");
     if (!file.is_open()) {
-        cout<<"Error! file could not open\n";
+        cout << "Error! file could not open\n";
         return;
     }
-    string sectionID, type, strRaw, strMax;
-    while (getline(file, sectionID, '|')) {
-        if (sectionID.empty() || sectionID == "\n" || sectionID == "\r") continue;
-       try{
-        getline(file, type, '|');
-        getline(file, strRaw, '|');
-        getline(file, strMax);
+    string courseID, studentID, type, strRaw, strMax;
+    
+    while (getline(file, courseID, '|')) {
+        if (courseID.empty() || courseID == "\n" || courseID == "\r") continue;
+        try {
+            getline(file, studentID, '|');
+            getline(file, type, '|');
+            getline(file, strRaw, '|');
+            getline(file, strMax);
 
-        float raw = stof(strRaw);
-        float max = stof(strMax);
+            float raw = stof(strRaw);
+            float max = stof(strMax);
 
-        // find which courseID belongs to this sectionID
-        string targetCourseID = "";
-        for (int i = 0; i < allSections.size(); i++) {
-            if (allSections[i]->getSectionID() == sectionID) {//search sections to find this section ang get courseID
-                targetCourseID = allSections[i]->getCourseID();
-                break;
-            }
-        }
- //Find that Course object and add the assessment
-        if (targetCourseID != "") {
+            string assessName = "";
+            if (type == "Quiz") assessName = "Q_" + studentID;
+            else if (type == "Assignment") assessName = "A_" + studentID;
+            else if (type == "Exam") assessName = "E_" + studentID;
+
             for (int i = 0; i < allCourses.size(); i++) {
-                if (allCourses[i]->getCourseID() == targetCourseID) {
+                if (allCourses[i]->getCourseID() == courseID) {
                     if (type == "Quiz") {
-                        allCourses[i]->addQuiz(new Quiz("Q_" + sectionID, raw, max));
+                        allCourses[i]->addQuiz(new Quiz(assessName, studentID, raw, max));
                     } else if (type == "Assignment") {
-                        allCourses[i]->addAssignment(new Assignment("A_" + sectionID, raw, max));
+                        allCourses[i]->addAssignment(new Assignment(assessName, studentID, raw, max));
                     } else if (type == "Exam") {
-                        allCourses[i]->addExam(new Exam("E_" + sectionID, raw, max));
+                        allCourses[i]->addExam(new Exam(assessName, studentID, raw, max));
                     }
                     break; 
                 }
             }
-        }
-    }catch(string error){
-cout << "Skipping Assessment for " << sectionID << ": " << error << endl;
+        } catch(string error) {
+            cout << "Skipping Assessment for " << courseID << ": " << error << endl;
             continue;
-    } catch(...){
-        continue;
+        } catch(...) {
+            continue;
+        }
     }
-}
 }
 
 //enrolled students
@@ -330,6 +323,7 @@ void DatabaseManager::loadEnrollments(vector<Student*>& allStudents, vector<Cour
         }
         if (foundStudent != nullptr && foundCourse != nullptr) {
             foundCourse->restoreStudent(foundStudent);
+            foundStudent->addCourse(foundCourse);
         }
     }
 }

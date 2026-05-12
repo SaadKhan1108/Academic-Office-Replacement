@@ -1,2 +1,2 @@
-T001|profx@university.edu|Professor X|4.5
-T002|drsmith@university.edu|Dr. Smith|3.8
+T1|Professor X|profx@uni.edu|4.5
+T2|Dr Smith|smith@uni.edu|3.8

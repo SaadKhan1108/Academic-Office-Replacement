@@ -3,7 +3,7 @@
 
 class Assignment : public Assessment {
 public:
-    Assignment(string id,float r,float m) : Assessment(id,"Assignment",r,m) {}
+    Assignment(string id, string sID,float r,float m) : Assessment(id,sID,"Assignment",r,m) {}
      void displayAssessment(){
          cout << "Assignment ID: " << assessmentID << endl;
         cout << "Score: " << rawScore << "/" << maxScore << endl;

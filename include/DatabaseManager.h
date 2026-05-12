@@ -23,7 +23,7 @@ public:
 static void saveAllVenues(const vector<Venue*>& allVenues);
     static void saveAllSections(const vector<Section*>& allSections);
     static vector<Section*> loadSections();
-    static void saveAssessment(string sectionID, string type, float raw, float max);
+    static void saveAssessment(string courseID, string studentID, string type, float raw, float max);
      static void loadAssessments(vector<Course*>& allCourses, const vector<Section*>& allSections);
   
    static void saveEnrollment(string studentID, string courseID);

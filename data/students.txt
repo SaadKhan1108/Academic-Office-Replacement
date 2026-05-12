@@ -1,3 +1,3 @@
-S101|Saad|saad@university.edu|Regular Student|0
-S102|Umar|umar@university.edu|Scholarship Student|0
-S103|Ali|ali@university.edu|Exchange Student|0
+STU1|Saad|saad@uni.edu|Regular Student|1.27
+STU2|Umar|umar@uni.edu|Scholarship Student|2.55
+STU3|Ali|ali@uni.edu|Exchange Student|0

@@ -20,7 +20,7 @@ class Course{
   vector<Student*> StudentsEnrolled;
   vector<Quiz*> quizzes;  //upto 5 quizzes
  vector<Assignment*> assignments;
- Exam* Fexam;  //1 fExam
+ vector<Exam*> exams;  
   public:
   Course(string Cid,string title,string Tid){
     CourseID=Cid;
@@ -30,7 +30,6 @@ class Course{
     examWeightage=0;
     assignmentWeightage=0;
     quizWeightage=0;
-    Fexam=nullptr;
   }
   string getCourseID(){
     return CourseID;
@@ -42,8 +41,8 @@ class Course{
     for (int i = 0; i < assignments.size(); i++) {
         delete assignments[i];
     }
-    if (Fexam != nullptr) {
-        delete Fexam;
+    for (int i = 0; i < exams.size(); i++) {
+        delete exams[i];
     }
 }
   string getTeacherID(){
@@ -71,14 +70,13 @@ class Course{
   void addAssignment(Assignment* q) ;
   void addExam(Exam* q) ; 
 void loadWeightages();
- float calculateFinalGrade();
+ float calculateFinalGrade(string studentID);
  void setOverallWeightage();
- void inputAssessmentMarks(string assessmentID, float obtainedScore);
+ void inputAssessmentMarks(string studentID, string assessmentID, string typeName, float obtainedScore, float maxScore);
   virtual float getExamDuration()=0;
 virtual string getType()=0;
 void enrollStudent(Student* s, string currentTimeSlot, const vector<Section*>& allSections, const vector<Course*>& allCourses);
 virtual void displayCourse()=0;
-void distributeWeightage();
 bool isStudentEnrolled(string studentID);
 void restoreStudent(Student* s);
 };

@@ -59,38 +59,43 @@ string Scheduler::suggestNextSlot(string currentSlot,string venueID){
     return "NO TIME SLOT AVAILABLE";
 }
 
- bool Scheduler::sectionAssignment(Section*s,Venue* v,int numStudents,const vector<Course*>&allCourses){
-    if(s==nullptr || v==nullptr){
-        return false;
-    }
-    string courseType="";
+bool Scheduler::sectionAssignment(Section* s, Venue* v, int numStudents, const vector<Course*>& allCourses) {
+    if (s == nullptr || v == nullptr) return false;
+    string courseType = "";
     for (int i = 0; i < allCourses.size(); i++) {
         if (allCourses[i]->getCourseID() == s->getCourseID()) {
             courseType = allCourses[i]->getType();
             break;
         }
     }
-if (courseType == "LabCourse" && !v->getComputers()) {
-        cout << "Error: Lab Courses require a venue with computers!" << endl;
+
+    if (courseType == "LabCourse" && !v->getComputers()) {
+        cout << "Error: Lab Courses require a venue with computers!\n";
         return false;
     }
 
-
-    if(checkCapacity(v,numStudents)==false){
-        cout<<"Not enough capacity in Room\n";
+    if (!checkCapacity(v, numStudents)) {
+        cout << "Error: Not enough capacity in Room " << v->getID() << endl;
         return false;
     }
-    string currentTime="8AM";
-    if (isConflict(v->getID(), currentTime)==true){
-         currentTime=suggestNextSlot(currentTime,v->getID());
-         if(currentTime=="NO TIME SLOT AVAILABLE"){
-            cout<<"NO TIME SLOT AVAILABLE\n";
+
+    string currentTime = "8AM";
+    cout << "Checking " << v->getID() << " at " << currentTime << "...\n";
+
+    if (isConflict(v->getID(), currentTime)) {
+        cout << "Conflict detected! Searching for next available slot...\n";
+        currentTime = suggestNextSlot(currentTime, v->getID());
+        if (currentTime == "NO TIME SLOT AVAILABLE") {
+            cout << "Schedule Failed: All timeslots are full for Room " << v->getID() << endl;
             return false;
-         }
+        }
     }
-        s->setVenue(v->getID());
-        s->setTime(currentTime);
-        sections.push_back(s);
-         cout << "Section " << s->getSectionID() <<" assigned successfully\n";
-         return true;
+\
+    s->setVenue(v->getID());
+    s->setTime(currentTime);
+    sections.push_back(s);
+
+    cout << "\n>>> EXAM SCHEDULED SUCCESS <<<\n";
+    cout << "Section: " << s->getSectionID() << " | Venue: " << s->getVenue() << " | Time: " << s->getTimeSlot() << endl;
+    return true;
 }

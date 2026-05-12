@@ -60,119 +60,102 @@ if (found == false) {
 }
 
 void Course::addQuiz(Quiz* q) {
-  bool exceededLimit=false;
-    if(quizzes.size() >= 5) {
-        cout << "Maximum 5 quizzes allowed\n";
-        exceededLimit=true;
-    }
-    if(exceededLimit==false){
     quizzes.push_back(q);
-    }
-    //add code to redefine weights for each quiz
-    distributeWeightage();
 }
   
 void Course::addAssignment(Assignment* q) {
-  bool exceededLimit=false;
-    if(assignments.size() >= 5) {
-        cout << "Maximum 5 assignments allowed\n";
-        exceededLimit=true;
-    }
-    if(exceededLimit==false){
     assignments.push_back(q);
-    }
-    //add code to redefine weights for each quiz
-    distributeWeightage();
 }
 
 void Course::addExam(Exam* q) {
-  bool exceededLimit=false;
-    if(Fexam!=nullptr) {
-        cout << "Maximum 1 Final exam is allowed\n";
-        exceededLimit=true;
-    }
-    if(exceededLimit==false){
-    Fexam=q;
-    }
-    distributeWeightage();
-}
-void Course::distributeWeightage(){
-
-    if(quizzes.size()>0){
-        float eachQuizzesWeightage=0;
-        eachQuizzesWeightage=quizWeightage/quizzes.size();
-
-        for(int i=0;i<quizzes.size();i++){
-            quizzes[i]->setWeightage(eachQuizzesWeightage);
-        }
-    }
-    if(assignments.size()>0){
-        float eachAssignmentWeightage=0;
-        eachAssignmentWeightage=assignmentWeightage/assignments.size();
-
-        for(int i=0;i<assignments.size();i++){
-            assignments[i]->setWeightage(eachAssignmentWeightage);
-        }
-    }
-    if(Fexam!=nullptr){
-        Fexam->setWeightage(examWeightage);
-    }
+    exams.push_back(q);
 }
 
-float Course::calculateFinalGrade(){
+float Course::calculateFinalGrade(string studentID) {
+    float total = 0;
+    int studentExamCount = 0;
+    for(int i=0; i<exams.size(); i++) if(exams[i]->getStudentID() == studentID) studentExamCount++;
+    for(int i=0; i<exams.size(); i++){
+        if(exams[i]->getStudentID() == studentID) {
+            float weight = (studentExamCount > 0) ? (examWeightage / studentExamCount) : 0;
+            total += exams[i]->getPercentage() * (weight / 100.0);
+        }
+    }
 
-    float total=0;
-    if(Fexam!=nullptr){
-        total += Fexam->getPercentage() *(Fexam->getWeightage() / 100);
+    int studentQuizCount = 0;
+    for(int i=0; i<quizzes.size(); i++) {
+        if(quizzes[i]->getStudentID() == studentID) {
+            studentQuizCount++;
+        }
     }
-    for(int i=0;i<quizzes.size();i++){
-        total+=quizzes[i]->getPercentage() *(quizzes[i]->getWeightage() / 100);
+    for(int i=0; i<quizzes.size(); i++){
+        if(quizzes[i]->getStudentID() == studentID) {
+            float weight = (studentQuizCount > 0) ? (quizWeightage / studentQuizCount) : 0;
+            total += quizzes[i]->getPercentage() * (weight / 100.0);
+        }
     }
-     for(int i=0;i<assignments.size();i++){
-        total+=assignments[i]->getPercentage() *(assignments[i]->getWeightage() / 100);
+
+    int studentAssCount = 0;
+    for(int i=0; i<assignments.size(); i++) if(assignments[i]->getStudentID() == studentID) studentAssCount++;
+    for(int i=0; i<assignments.size(); i++){
+        if(assignments[i]->getStudentID() == studentID) {
+            float weight = (studentAssCount > 0) ? (assignmentWeightage / studentAssCount) : 0;
+            total += assignments[i]->getPercentage() * (weight / 100.0);
+        }
     }
+    
     return total;
 }
 
-void Course::inputAssessmentMarks(string assessmentID, float obtainedScore) {
+void Course::inputAssessmentMarks(string studentID, string assessmentID, string typeName, float obtainedScore, float maxScore) {
     bool found = false;
-    Assessment* targetAssessment = nullptr; 
 
-    if (Fexam != nullptr && Fexam->getID() == assessmentID) {
-        Fexam->setRawScore(obtainedScore); 
-        targetAssessment = Fexam; 
-        found = true;
+    if (typeName == "Exam") {
+        for (int i = 0; i < exams.size(); i++) {
+            if (exams[i]->getID() == assessmentID && exams[i]->getStudentID() == studentID) {
+                exams[i]->setRawScore(obtainedScore);
+                found = true; 
+                break;
+            }
+        }
+        if (!found) { 
+            exams.push_back(new Exam(assessmentID, studentID, obtainedScore, maxScore));
+             found = true;
+             }
     }
-
-    if (found == false) {
+    else if (typeName == "Quiz") {
         for (int i = 0; i < quizzes.size(); i++) {
-            if (quizzes[i]->getID() == assessmentID) {
+            if (quizzes[i]->getID() == assessmentID && quizzes[i]->getStudentID() == studentID) {
                 quizzes[i]->setRawScore(obtainedScore);
-                targetAssessment = quizzes[i];
                 found = true;
-                break;
+                 break;
             }
         }
+        if (!found) {
+             quizzes.push_back(new Quiz(assessmentID, studentID, obtainedScore, maxScore));
+              found = true;
+             }
     }
-    if (found == false) {
+    else if (typeName == "Assignment") {
         for (int i = 0; i < assignments.size(); i++) {
-            if (assignments[i]->getID() == assessmentID) {
+            if (assignments[i]->getID() == assessmentID && assignments[i]->getStudentID() == studentID) {
                 assignments[i]->setRawScore(obtainedScore);
-                targetAssessment = assignments[i];
-                found = true;
+                found = true; 
                 break;
             }
         }
+        if (!found) { 
+            assignments.push_back(new Assignment(assessmentID, studentID, obtainedScore, maxScore));
+             found = true; 
+            }
     }
 
-    if (found == true && targetAssessment != nullptr) {
-            DatabaseManager::saveAssessment(this->CourseID, targetAssessment->getType(), obtainedScore, targetAssessment->getMaxScore());    
-        cout << "Marks updated for Assessment: " << assessmentID << endl;
-        cout << "Updated Course Grade: " << calculateFinalGrade() << "%" << endl;
-    } else {
-        cout << "Error: Assessment ID " << assessmentID << " not found." << endl;
+    if (found==true) {
+        DatabaseManager::saveAssessment(this->CourseID, studentID, typeName, obtainedScore, maxScore);    
+        cout << "Marks recorded successfully for Student " << studentID << "!" << endl;
     }
 }
+
 
 void Course::loadWeightages(){
     ifstream file("data/weightages.txt");
